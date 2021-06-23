@@ -11,7 +11,7 @@ First, to ensure that your issue is not a hardware one make sure to boot using t
 A possible solution is to instruct the kernel to use a specific video mode during boot time. This can be done by adding the following to its command line:
 `video=HDMI-A-1:1920x1080@50`, where we assume _1920x1080_ and _50_ are a valid resolution and refresh rate, respectively.
 
-#### Modifying the Command Line using Fastboot
+#### Booting with Modified Command Line using Fastboot
 
 Instead of modifying the boot image installed on the board, you can boot with a custom command line using fastboot.
 

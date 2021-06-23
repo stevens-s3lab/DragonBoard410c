@@ -1,9 +1,5 @@
 # Installing Linaro Linux on DragonBoard 410c
 
-**Other Documentation**
-
-[Hardware Documentation](https://www.96boards.org/documentation/consumer/dragonboard/dragonboard410c/hardware-docs/index.html)
-
 ## Install Debian Developer Image on SD Card from Host
 
 ### Step 1: Connect SD Card to Host
