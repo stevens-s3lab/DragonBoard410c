@@ -9,7 +9,7 @@ On certain monitors the board does not produce video output over HDMI. This has 
 First, to ensure that your issue is not a hardware one make sure to boot using the Android image installed on the board's eMMC. This can be done by turning the board off, ensuring the *SD Boot* [Dip-switch](https://www.96boards.org/documentation/consumer/dragonboard/dragonboard410c/hardware-docs/hardware-user-manual.md.html#dip-switch) is set to **off** (example switch state: __0-0-0-0__), and turning it on again.
 
 A possible solution is to instruct the kernel to use a specific video mode during boot time. This can be done by adding the following to its command line:
-`video=HDMI-A-1:1920x1080@50`, where we assume _1920x1080_ and _50_ are a valid resolution and refresh rate, respectively.
+`video=HDMI-A-1:1920x1080@60`, where we assume _1920x1080_ and _60_ are a valid resolution and refresh rate, respectively.
 
 __Examples are based on Debian SID Developer Image on SD Card__
 
@@ -18,15 +18,20 @@ __Examples are based on Debian SID Developer Image on SD Card__
 1. Download [boot-linaro-sid-dragonboard-410c-1029.img.gz](http://releases.linaro.org/96boards/dragonboard410c/linaro/debian/latest/boot-sdcard-linaro-sid-dragonboard-410c-1029.img.gz). For the latest, checkout [http://releases.linaro.org/96boards/dragonboard410c/linaro/debian/latest/](http://releases.linaro.org/96boards/dragonboard410c/linaro/debian/latest/).
 2. Decompress it: `gunzip boot-sdcard-linaro-sid-dragonboard-410c-1029.img.gz`
 
+#### Step 2: Prepare Board
 
-#### Step 2: Modify Command Line
+Set the *SD Boot* [Dip-switch](https://www.96boards.org/documentation/consumer/dragonboard/dragonboard410c/hardware-docs/hardware-user-manual.md.html#dip-switch) to **on**. Example switch state: __0-1-0-0__
+
+While pressing Vol-, plug in the board to power to boot into fastboot.
+
+#### Step 3
 
 #### Option 1: Booting with Modified Command Line using Fastboot
 
 Instead of modifying the boot image installed on the board, you can boot with a custom command line using fastboot.
 
 ```
-fastboot boot --cmdline "root=PARTLABEL=rootfs console=ttyMSM0,115200n8 video=HDMI-A-1:1920x1080@50" boot-sdcard-linaro-sid-dragonboard-410c-1029.img
+fastboot boot --cmdline "root=PARTLABEL=rootfs console=ttyMSM0,115200n8 video=HDMI-A-1:1920x1080@60" boot-sdcard-linaro-sid-dragonboard-410c-1029.img
 ```
 
 #### Option 2: Modify Command Line in Boot Image and Install it
@@ -61,7 +66,7 @@ For example: `cp boot-sdcard-linaro-sid-dragonboard-410c-1029.img boot-sdcard-vi
 Modify command line of the new image by appending video option:
 
 ```
-abootimg -u image -c "cmdline video=HDMI-A-1:1920x1080@50" boot-sdcard-video.img
+abootimg -u image -c "cmdline video=HDMI-A-1:1920x1080@60" boot-sdcard-video.img
 ```
 
 where _cmdline_ is the value returned in step 1.
@@ -69,7 +74,7 @@ where _cmdline_ is the value returned in step 1.
 For example:
 
 ```
-abootimg -u image -c "cmdline = root=/dev/disk/by-partlabel/rootfs rw rootwait console=tty0 console=ttyMSM0,115200n8 video=HDMI-A-1:1920x1080@50" boot-sdcard-video.img
+abootimg -u image -c "cmdline = root=/dev/disk/by-partlabel/rootfs rw rootwait console=tty0 console=ttyMSM0,115200n8 video=HDMI-A-1:1920x1080@60" boot-sdcard-video.img
 ```
 
 ##### Step 4
@@ -97,3 +102,22 @@ fastboot reboot
 _Did not work for me_
 
 [https://www.96boards.org/documentation/consumer/dragonboard/dragonboard410c/guides/force-display-res.md.html](https://www.96boards.org/documentation/consumer/dragonboard/dragonboard410c/guides/force-display-res.md.html)
+
+
+## SSH Server Not Running
+
+Try starting the service:
+
+```
+sudo systemctl start ssh.service
+```
+
+If the service refuses to run, execute the server manually `/usr/sbin/sshd` and fix any errors reported.
+
+### Possible Error: `/run/sshd` Does Not Exist
+
+Simply create the directory.
+
+```
+sudo mkdir /run/sshd
+```
