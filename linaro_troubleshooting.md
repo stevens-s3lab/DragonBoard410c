@@ -114,7 +114,7 @@ sudo systemctl start ssh.service
 
 If the service refuses to run, execute the server manually `/usr/sbin/sshd` and fix any errors reported.
 
-### Possible Error: `/run/sshd` Does Not Exist
+### Possible Error: _/run/sshd_ Does Not Exist
 
 Simply create the directory.
 
