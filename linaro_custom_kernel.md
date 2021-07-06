@@ -61,17 +61,16 @@ make defconfig distro.config
 
 #### Option 2: Minimal Configuration
 
-1. Copy kernel source to the board. You may fine a compressed archive on Linaro's [website](http://git.linaro.org/landing-teams/working/qualcomm/kernel.git/), but you can also copy the one you have already downloaded. 
+1. Copy kernel source to the board. You may find a compressed archive on Linaro's [website](http://git.linaro.org/landing-teams/working/qualcomm/kernel.git/), but you can also copy the one you have already downloaded. 
 2. Extract the archive.
 3. Switch into the kernel source directory.
 4. Install necessary packages `sudo apt-get install flex bison`
-4. Generate a minimal kernel configuration `make localmodconfig` (or `make localyesconfig`, if you do not desire modules).
-5. Copy config file to kernel source directory on the host.
-6. Run `make oldconfig`
+5. Generate a minimal kernel configuration `make localmodconfig` (or `make localyesconfig`, if you do not desire modules).
+6. Copy config file to kernel source directory on the host.
+7. Run `make oldconfig`
 
-_TODO_
 
-### Step 6: Build Kernel
+### Step 6: Build Everything
 
 Build kernel and modules defining `KERNELRELEASE` based on the version returned by the previous step.
 
@@ -109,7 +108,7 @@ Copy the generated file (`initrd-<version>-qcomlt-arm64.img`) to the host on the
 
 ### Step 9: Create Boot Image
 
-Make sure you have `mkbootimg`. If not install it.
+Make sure you have `mkbootimg`. If not, install it.
 
 Example:
 
